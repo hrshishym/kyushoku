@@ -11,27 +11,34 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ route('menu.index') }}">給食献立管理</a>
-            <div class="navbar-nav me-auto">
-                <a class="nav-link" href="{{ route('menu.index') }}">ホーム</a>
-                <a class="nav-link" href="{{ route('menu.upload.form') }}">月次PDFアップロード</a>
-                <a class="nav-link" href="{{ route('menu.monthly') }}">月別表示</a>
-            </div>
-            <div class="navbar-nav">
-                @auth
-                    <span class="navbar-text me-3">
-                        こんにちは、{{ Auth::user()->name }}さん
-                    </span>
-                    <a class="nav-link" href="{{ route('profile.edit') }}">プロフィール</a>
-                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                        @csrf
-                        <button type="submit" class="nav-link btn btn-link p-0 border-0" style="color: rgba(255,255,255,.55);">
-                            ログアウト
-                        </button>
-                    </form>
-                @else
-                    <a class="nav-link" href="{{ route('login') }}">ログイン</a>
-                    <a class="nav-link" href="{{ route('register') }}">新規登録</a>
-                @endauth
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav me-auto">
+                    <a class="nav-link" href="{{ route('menu.index') }}">ホーム</a>
+                    <a class="nav-link" href="{{ route('menu.upload.form') }}">月次PDFアップロード</a>
+                    <a class="nav-link" href="{{ route('menu.monthly') }}">月別表示</a>
+                </div>
+                <div class="navbar-nav">
+                    @auth
+                        <span class="navbar-text me-3">
+                            こんにちは、{{ Auth::user()->name }}さん
+                        </span>
+                        <a class="nav-link" href="{{ route('profile.edit') }}">プロフィール</a>
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link p-0 border-0" style="color: rgba(255,255,255,.55);">
+                                ログアウト
+                            </button>
+                        </form>
+                    @else
+                        <a class="nav-link" href="{{ route('login') }}">ログイン</a>
+                        <a class="nav-link" href="{{ route('register') }}">新規登録</a>
+                    @endauth
+                </div>
             </div>
         </div>
     </nav>
