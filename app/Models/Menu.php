@@ -11,6 +11,7 @@ class Menu extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'date',
         'main_dish',
         'side_dish',
@@ -26,9 +27,16 @@ class Menu extends Model
         'date' => 'date',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public static function getMenuForDate($date)
     {
-        return self::where('date', $date)->first();
+        return self::where('user_id', auth()->id())
+                   ->where('date', $date)
+                   ->first();
     }
 
     public static function getTodaysMenu()
@@ -39,5 +47,16 @@ class Menu extends Model
     public static function getTomorrowsMenu()
     {
         return self::getMenuForDate(Carbon::tomorrow());
+    }
+
+    public static function getMenusForMonth($year, $month)
+    {
+        $startDate = Carbon::create($year, $month, 1)->startOfMonth();
+        $endDate = Carbon::create($year, $month, 1)->endOfMonth();
+        
+        return self::where('user_id', auth()->id())
+                   ->whereBetween('date', [$startDate, $endDate])
+                   ->orderBy('date')
+                   ->get();
     }
 }
