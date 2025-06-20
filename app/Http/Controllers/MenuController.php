@@ -24,8 +24,9 @@ class MenuController extends Controller
         $todayMenu = Menu::getTodaysMenu();
         $tomorrowMenu = Menu::getTomorrowsMenu();
         
-        // 最近アップロードされた月次PDFを取得
-        $recentPdfs = MonthlyPdf::orderBy('year', 'desc')
+        // 最近アップロードされた月次PDFを取得（ユーザー固有）
+        $recentPdfs = MonthlyPdf::where('user_id', auth()->id())
+                                ->orderBy('year', 'desc')
                                 ->orderBy('month', 'desc')
                                 ->limit(3)
                                 ->get();
@@ -66,6 +67,7 @@ class MenuController extends Controller
 
             // MonthlyPdfレコードを作成
             $monthlyPdf = MonthlyPdf::create([
+                'user_id' => auth()->id(),
                 'year' => $year,
                 'month' => $month,
                 'pdf_path' => $filePath,
@@ -122,7 +124,7 @@ class MenuController extends Controller
 
     public function showPdf($id)
     {
-        $monthlyPdf = MonthlyPdf::findOrFail($id);
+        $monthlyPdf = MonthlyPdf::where('user_id', auth()->id())->findOrFail($id);
         
         if (!Storage::disk('public')->exists($monthlyPdf->pdf_path)) {
             abort(404, 'PDFファイルが見つかりません。');
@@ -133,11 +135,13 @@ class MenuController extends Controller
 
     private function deleteExistingMonthData(MonthlyPdf $monthlyPdf)
     {
-        // 該当月の献立データを削除
+        // 該当月の献立データを削除（ユーザー固有）
         $startDate = Carbon::create($monthlyPdf->year, $monthlyPdf->month, 1)->startOfMonth();
         $endDate = Carbon::create($monthlyPdf->year, $monthlyPdf->month, 1)->endOfMonth();
         
-        Menu::whereBetween('date', [$startDate, $endDate])->delete();
+        Menu::where('user_id', auth()->id())
+            ->whereBetween('date', [$startDate, $endDate])
+            ->delete();
 
         // PDFファイルを削除
         if (Storage::disk('public')->exists($monthlyPdf->pdf_path)) {
@@ -155,7 +159,10 @@ class MenuController extends Controller
         foreach ($menus as $menuData) {
             try {
                 Menu::updateOrCreate(
-                    ['date' => $menuData['date']],
+                    [
+                        'user_id' => auth()->id(),
+                        'date' => $menuData['date']
+                    ],
                     [
                         'main_dish' => $menuData['main_dish'],
                         'side_dish' => $menuData['side_dish'],

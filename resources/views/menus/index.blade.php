@@ -72,7 +72,7 @@
     </div>
 
     <!-- 明日の献立 -->
-    <div class="col-md-6">
+    <div class="col-md-6 mt-4 mt-md-0">
         <div class="card">
             <div class="card-header bg-success text-white">
                 <h3 class="card-title mb-0">明日の献立 ({{ now()->addDay()->format('Y年m月d日') }})</h3>

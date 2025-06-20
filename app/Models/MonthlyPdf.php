@@ -11,6 +11,7 @@ class MonthlyPdf extends Model
    use HasFactory;
 
    protected $fillable = [
+       'user_id',
        'year',
        'month',
        'pdf_path',
@@ -38,8 +39,16 @@ class MonthlyPdf extends Model
        return Carbon::create($this->year, $this->month, 1)->format('Y年m月');
    }
 
+   public function user()
+   {
+       return $this->belongsTo(User::class);
+   }
+
    public static function findByYearMonth(int $year, int $month)
    {
-       return self::where('year', $year)->where('month', $month)->first();
+       return self::where('user_id', auth()->id())
+                  ->where('year', $year)
+                  ->where('month', $month)
+                  ->first();
    }
 }
