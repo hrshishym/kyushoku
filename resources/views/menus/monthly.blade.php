@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-block d-md-flex justify-content-between align-items-center mb-4">
             <h1>{{ $year }}年{{ $month }}月の献立表</h1>
             <div>
                 <form method="GET" action="{{ route('menu.monthly') }}" class="d-flex gap-2">
