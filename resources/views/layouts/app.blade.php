@@ -32,7 +32,7 @@
                         <a class="nav-link" href="{{ route('profile.edit') }}">プロフィール</a>
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
                             @csrf
-                            <button type="submit" class="nav-link btn btn-link p-0 border-0" style="color: rgba(255,255,255,.55);">
+                            <button type="submit" class="nav-link btn btn-link px-lg-3 py-2 border-0" style="color: rgba(255,255,255,.55);">
                                 ログアウト
                             </button>
                         </form>
