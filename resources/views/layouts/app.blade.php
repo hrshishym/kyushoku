@@ -19,8 +19,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav me-auto">
                     <a class="nav-link" href="{{ route('menu.index') }}">ホーム</a>
+                    @auth
                     <a class="nav-link" href="{{ route('menu.upload.form') }}">月次PDFアップロード</a>
                     <a class="nav-link" href="{{ route('menu.monthly') }}">月別表示</a>
+                    @endauth
                 </div>
                 <div class="navbar-nav">
                     @auth
