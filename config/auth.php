@@ -112,4 +112,16 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Invitation Code
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to set a static invitation code that users must
+    | provide during registration. This can be used to control access to
+    | your application and ensure that only invited users can register.
+    |
+    */  
+    'invitation_code' => env('AUTH_INVITATION_CODE', 'default-invitation-code'),
+
 ];
